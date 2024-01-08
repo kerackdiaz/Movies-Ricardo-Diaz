@@ -1,63 +1,162 @@
-/* function sllider */
+const navLinks = document.querySelectorAll('nav a, header p');
+const HeaderLogo = document.querySelector('header img');
+const header = document.querySelector('header');
+let selectedGenre = null;
 
-const images = movies.map(movie => movie.image);
-const titles = movies.map(movie => movie.title);
+//modify style in header
 
-const randomIndices = [];
+window.addEventListener('scroll', function () {
+  if (window.scrollY > 200) {
+    HeaderLogo.classList.add('hidden');
+    searchIcon.classList.remove('hidden');
+    const body = document.body;
+    const isHomePage = body.classList.contains('home');
 
-while (randomIndices.length < 5) {
-  const randomIndex = Math.floor(Math.random() * images.length);
-  if (!randomIndices.includes(randomIndex)) {
-    randomIndices.push(randomIndex);
+    if (isHomePage) {
+
+    } else {
+
+
+      searchIcon.innerHTML = `
+      <button id="searchIcon" type="button" class="dark:text-white text-black hover:scale-150 text-2xl">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    `;
+    }
+  } else {
+    HeaderLogo.classList.remove('hidden');
+    searchIcon.classList.add('hidden');
+
+  };
+});
+
+
+let inputExists = false;
+
+
+//create div of search input
+function createSearchInput(parentElement) {
+  const inputSearch = document.createElement('input');
+  inputSearch.setAttribute('type', 'search');
+  inputSearch.setAttribute('name', 'searchSticky');
+  inputSearch.setAttribute('placeholder', 'Search the movie:');
+
+  inputSearch.classList.add('mx-3', 'border-b-2', 'dark:bg-black', 'placeholder:text-gray-500', 'focus:outline-none', 'text-black', 'dark:text-white', 'h-12');
+
+  const searchWrapper = document.createElement('div');
+  searchWrapper.classList.add('flex', 'justify-center', 'w-full');
+  searchWrapper.setAttribute('id', 'contentSearch')
+  searchWrapper.appendChild(inputSearch);
+
+  parentElement.appendChild(searchWrapper);
+  return inputSearch;
+}
+
+const navSearch = document.querySelector('header nav');
+const searchIcon = document.createElement('div');
+navSearch.appendChild(searchIcon);
+
+
+
+const searchInputs = document.querySelectorAll('input[type="search"]');
+let searchQuery = '';
+
+//update search
+function updateSearchInputs(value) {
+  searchInputs.forEach(input => {
+    input.value = value;
+  });
+}
+
+// draw search in header
+searchIcon.addEventListener('click', function () {
+  if (!inputExists) {
+    const inputSearch = createSearchInput(header);
+    inputExists = true;
+    searchIcon.classList.add('hidden');
+
+    inputSearch.addEventListener('keyup', function (event) {
+      searchQuery = event.target.value.toLowerCase();
+      updateSearchInputs(searchQuery);
+
+      const filteredMovies = movies.filter(movie => {
+        return (
+          (movie.title.toLowerCase().includes(searchQuery) ||
+            movie.overview.toLowerCase().includes(searchQuery)) &&
+          (!selectedGenre || movie.genres.includes(selectedGenre))
+        );
+      });
+
+      createCard(filteredMovies, selectedGenre);
+    });
+  }
+});
+
+searchInputs.forEach(input => {
+  input.addEventListener('keyup', function (event) {
+    searchQuery = event.target.value.toLowerCase();
+    updateSearchInputs(searchQuery);
+
+    const filteredMovies = movies.filter(movie => {
+      return (
+        (movie.title.toLowerCase().includes(searchQuery) ||
+          movie.overview.toLowerCase().includes(searchQuery)) &&
+        (!selectedGenre || movie.genres.includes(selectedGenre))
+      );
+    });
+
+    createCard(filteredMovies, selectedGenre);
+  });
+});
+
+
+//create filter dropdown
+
+const allGenres = movies.reduce((genres, movie) => {
+  movie.genres.forEach(genre => {
+    if (!genres.includes(genre)) {
+      genres.push(genre);
+    }
+  });
+  return genres;
+}, []);
+
+function createGenres(allGenres) {
+  const section = document.getElementById('categoryDropdown');
+  if (section) {
+    section.innerHTML = `<option value="">All Categories</option>`;
+    allGenres.forEach(genre => {
+      section.innerHTML += `<option value="${genre}">${genre}</option>`;
+    });
+
+    section.addEventListener('change', function () {
+      selectedGenre = section.value;
+      createCard(movies, selectedGenre);
+    });
   }
 }
 
-const randomImages = randomIndices.map(index => images[index]);
-const randomTitles = randomIndices.map(index => titles[index]);
+// draw cards
 
-
-document.addEventListener('alpine:init', () => {
-  Alpine.data('slider', () => ({
-    currentIndex: 1,
-    images: randomImages,
-    titles: randomTitles,
-    back() {
-      if (this.currentIndex > 1) {
-        this.currentIndex = this.currentIndex - 1;
-      }
-    },
-    next() {
-      if (this.currentIndex < this.images.length) {
-        this.currentIndex = this.currentIndex + 1;
-      } else if (this.currentIndex <= this.images.length) {
-        this.currentIndex = this.images.length - this.currentIndex + 1
-      }
-    },
-  }))
-})
-
-
-
-
-
-createCard(movies);
-
-//create card
-
-function createCard(data) {
+function createCard(dat, genreFilter = null) {
   const section = document.getElementById('movies');
   if (section) {
     section.innerHTML = "";
 
-    const cardHTML = data.reduce((dat, movie) => {
-      return dat + `
+    let filteredMovies = dat;
+    if (genreFilter) {
+      filteredMovies = dat.filter(movie => movie.genres.includes(genreFilter));
+    }
+
+    const cardHTML = filteredMovies.reduce((data, movie) => {
+      return data + `
         <article class="flex justify-center">
-          <div class="w-80 dark:bg-white p-3 bg-gray-900">
+          <a href="./movie.html?id=${movie.id}" class="w-80 dark:bg-white p-3 bg-gray-900">
             <img class="h-52 w-full object-cover" src="${movie.image}" alt="${movie.title}" />
             <h2 class="text-center font-bold font-bebas-neue capitalize my-4 text-2xl text-white dark:text-black">${movie.title}</h2>
             <p class="text-white dark:text-black text-base mb-2 text-center font-bold"> ${movie.tagline}</p>
-            <p class="text-white dark:text-black">${movie.overview}</p>
-          </div>
+            <p class="text-white dark:text-black line-clamp-3">${movie.overview}</p>
+          </a>
         </article>
       `;
     }, "");
@@ -67,47 +166,5 @@ function createCard(data) {
 }
 
 
-
-
-
-
-//mode dark / mode light
-
-let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-let themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-// Change the icons inside the button based on previous settings
-if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    themeToggleLightIcon.classList.remove('hidden');
-} else {
-    themeToggleDarkIcon.classList.remove('hidden');
-}
-
-let themeToggleBtn = document.getElementById('theme-toggle');
-
-themeToggleBtn.addEventListener('click', function() {
-
-
-    themeToggleDarkIcon.classList.toggle('hidden');
-    themeToggleLightIcon.classList.toggle('hidden');
-
-    if (localStorage.getItem('color-theme')) {
-        if (localStorage.getItem('color-theme') === 'light') {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('color-theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('color-theme', 'light');
-        }
-
-    } else {
-        if (document.documentElement.classList.contains('dark')) {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('color-theme', 'light');
-        } else {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('color-theme', 'dark');
-        }
-    }
-    
-});
+createGenres(allGenres);
+createCard(movies);

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es-US">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./src/assets/style/dist/output.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="./src/assets/img/Moviestack_favicon.png" type="image/x-icon" />
+    <title>Welcome - Moviestack</title>
+</head>
+
+<body class="bg-white dark:bg-gray-900">
+
+    <div class="h-auto w-full bg-white dark:bg-black p-4 mx-auto flex flex-wrap" id="top-bar">
+        <div class="text-black dark:text-white w-2/4 flex font-bebas-neue capitalize items-center pl-7">Actual movie:
+            <p id="titleMovies" class="ml-2 font-bold text-lg"></p>
+        </div>
+        <div id="search" class="flex justify-center w-1/4">
+        </div>
+        <div class="w-1/4 text-black dark:text-white flex justify-end">
+            <button class="mr-3"> Sing Up / sing In</button>
+            <button id="theme-toggle" type="button"
+                class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 capitalize">
+                <span class="dark:hidden "><i id="theme-toggle-dark-icon"
+                        class="fa-solid fa-moon dark:hidden"></i></span>
+                <span class="hidden dark:block"> <i id="theme-toggle-light-icon"
+                        class="fa-solid fa-sun hidden"></i></span>
+            </button>
+        </div>
+    </div>
+    <header class="flex flex-wrap dark:bg-black bg-white transition duration-300 h-auto">
+        <div class="flex w-full border-y-4 border-gray-500  backdrop-blur-lg bg-transparent">
+            <div class=" w-2/6 flex justify-center content-center  py-7">
+                <img class="w-20 " src="./src/assets/img/Moviestack_isotipo.png" alt="Logo">
+                <p class="dark:text-white text-[#6d38e0] self-center text-2xl font-extrabold font-bebas-neue ml-3">
+                    MOVIESTACK</p>
+            </div>
+            <nav class="w-3/4  my-auto text-end mx-14 text-black dark:text-white flex justify-end items-center">
+                <a class="text-3xl font-bold px-5 py-2 font-bebas-neue capitalize hover:text-indigo-500 "
+                    href="./index.html">home</a>
+                <a class="text-3xl font-bold px-5 py-2 font-bebas-neue capitalize hover:text-indigo-500" href="./movies.html">movies</a>
+                <a class="text-3xl font-bold px-5 py-2 font-bebas-neue capitalize hover:text-indigo-500" href="./fav.html">fav</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div id="movieData" class="dark:bg-black bg-white p-10 flex flex-wrap ">
+        </div>
+
+    </main>
+
+
+
+    <footer class="flex justify-center items-center mt-4 p-7 bg-black text-white gap-2">
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-x-twitter"></i>
+        <h2 class="ml-5">MindHub Cohort 53°</h2>
+    </footer>
+    <script src="https://kit.fontawesome.com/1d67b26f86.js" crossorigin="anonymous"></script>
+    <script src="./src/assets/script/MovieStack_data.js"></script>
+    <!-- <script src="./src/assets/script/script.js"></script> -->
+    <script src="./src/assets/script/movieData.js"></script>
+    <script src="./src/assets/script/darkmode.js"></script>
+</body>
+
+</html>

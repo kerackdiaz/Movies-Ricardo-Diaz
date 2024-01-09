@@ -7,6 +7,9 @@ module.exports = {
       fontFamily: {
         'bebas-neue': ['Bebas Neue', 'sans-serif'],
       },
+      backgroundImage: {
+        'movie': "url('../../../../src/assets/img/movies-bg.jpg')",
+      }
     },
   },
   plugins: [

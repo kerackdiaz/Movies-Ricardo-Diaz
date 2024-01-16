@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es-US">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./src/assets/style/dist/output.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="./src/assets/img/Moviestack_favicon.png" type="image/x-icon" />
+    <title>All Movies - Moviestack</title>
+</head>
+
+<body class="bg-white dark:bg-gray-900">
+
+    <div class="h-auto w-full bg-white dark:bg-black p-4 mx-auto flex flex-wrap" id="top-bar">
+        <div class="text-black dark:text-white w-2/4 flex font-bebas-neue capitalize items-center pl-7">new movies:
+            <p id="titleMovies" class="ml-2 font-bold text-lg"></p>
+        </div>
+        <div id="search" class="flex justify-center w-1/4">
+            <input type="search" name="searchTop" placeholder="Search the movie:"
+                class="mx-3 border-b-2 dark:bg-black placeholder:text-gray-500 focus:outline-none text-black dark:text-white">
+            <button id="searchIcon" type="button" class="dark:text-white text-black hover:scale-150 text-2xl">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+        <div class="w-1/4 text-black dark:text-white flex justify-end">
+            <button class="mr-3"> Sing Up / sing In</button>
+            <button id="theme-toggle" type="button"
+                class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 capitalize">
+                <span class="dark:hidden "><i id="theme-toggle-dark-icon"
+                        class="fa-solid fa-moon dark:hidden"></i></span>
+                <span class="hidden dark:block"> <i id="theme-toggle-light-icon"
+                        class="fa-solid fa-sun hidden"></i></span>
+            </button>
+        </div>
+    </div>
+    <header class="flex flex-wrap sticky top-0 z-50 dark:bg-black bg-white transition duration-300 h-auto">
+        <div class="flex w-full border-y-4 border-gray-500  backdrop-blur-lg bg-transparent">
+            <div class=" w-2/6 flex justify-center content-center  py-7">
+                <img class="w-20 " src="./src/assets/img/Moviestack_isotipo.png" alt="Logo">
+                <p class="dark:text-white text-[#6d38e0] self-center text-2xl font-extrabold font-bebas-neue ml-3">
+                    MOVIESTACK</p>
+            </div>
+            <nav class="w-3/4  my-auto text-end mx-14 text-black dark:text-white flex justify-end items-center">
+                <a class="text-3xl font-bold px-5 py-2 font-bebas-neue capitalize hover:text-indigo-500 hover:scale-110 hover:font-extrabold  scale-110" href="./index.html">home</a>
+                <a class="text-3xl  px-5 py-2 font-bebas-neue capitalize text-indigo-500 hover:scale-110 font-extrabold" href="./movies.html">movies</a>
+                <a class="text-3xl font-bold px-5 py-2 font-bebas-neue capitalize hover:text-indigo-500 hover:scale-110 hover:font-extrabold" href="./fav.html">fav</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- <div> -->
+            <div id="banner" class="bg-black">
+                <article id="carousel-image"
+                    class="relative w-full h-[80vh] flex flex-col flex-shrink-0 overflow-hidden shadow-2xl justify-center items-center bg-cover px-10">
+                    <div id="index-info"
+                        class="rounded-full bg-gray-600 text-white absolute top-5 right-5 text-sm px-2 text-center z-10">
+                        <p>${currentIndex}</p>
+                        <p>${images.length}</p>
+                    </div>
+                    <div class="flex justify-between w-full">
+                        <i class="fa-solid fa-circle-chevron-left text-white text-4xl hover:scale-125"
+                            id="left-Btn"></i>
+                        <i class="fa-solid fa-circle-chevron-right text-white text-4xl hover:scale-125"
+                            id="rigth-Btn"></i>
+                    </div>
+                </article>
+            </div>
+            <div class="items-center">
+                <div class="h-auto w-full bg-white dark:bg-black p-4 mx-auto flex flex-wrap justify-center">
+                    <div
+                        class="text-black dark:text-white w-full flex justify-between font-bebas-neue capitalize items-center pl-7 mt-20 text-2xl">
+                        <div class="relative mt-2.5 w-2/3">
+                            <div class="absolute inset-y-0 left-0 flex items-center">
+                                <select id="categoryDropdown" name="Categories"
+                                    class="appearance-none text-black h-full rounded-md border-0 bg-transparent py-0 pl-4 pr-9  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+                                    <option value="">All Categories</option>
+
+                                </select>
+                                <svg class="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"
+                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <input type="search" name="search" id="phone-number" placeholder="Search the movie:"
+                                autocomplete="tel"
+                                class="block w-full rounded-md border-0 px-3.5 py-2 pl-40 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+
+
+                        <div class="relative mt-2.5 rounded-md border-2 inset-y-0 items-center">
+                            <select name="cantView" id="cantView"
+                                class="w-auto h-10 appearance-none text-black focus:outline-0 rounded-md border-0 bg-transparent py-0 pl-4 pr-9  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+                                <option value="12">12</option>
+                                <option value="24">24 <i class="fa-solid fa-caret-down"></i></option>
+                                <option value="50">50 <i class="fa-solid fa-caret-down"></i></option>
+                                <option value="100">100 <i class="fa-solid fa-caret-down"></i></option>
+                                <option value="all">All <i class="fa-solid fa-caret-down"></i></option>
+                            </select>
+                            <svg class="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"
+                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div id="movies" class="flex  w-full flex-wrap gap-8 justify-center p-5 my-7">
+                </div>
+                <div class="flex justify-center">
+                <nav aria-label="Page navigation example">
+                    <ul id="navPag" class="inline-flex -space-x-px text-base h-10 ">
+                        
+                    </ul>
+                </nav>
+                </div>
+            </div>
+
+
+    </main>
+
+
+
+    <footer class="flex justify-center items-center mt-4 p-7 bg-black text-white gap-2">
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-x-twitter"></i>
+        <h2 class="ml-5">MindHub Cohort 53°</h2>
+    </footer>
+    <script src="https://kit.fontawesome.com/1d67b26f86.js" crossorigin="anonymous"></script>
+    <script src="./src/assets/script/script.js" type="module"></script>
+</body>
+
+</html>
